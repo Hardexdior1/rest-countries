@@ -10,7 +10,6 @@ const CountryContent = () => {
   console.log("countryInformation", data);
   const [toggleCoatOfArm, setToggleCoatOfArm] = useState(false);
 
-  const [countryInfo, setCountryInfo] = useState([]);
   let currency = "";
   let currencySymbol = "";
   let language = "";
@@ -33,9 +32,6 @@ const CountryContent = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        const africaCountries = data.filter((country) =>
-          country.continents.includes("Africa")
-        );
         setCountries(data);
         setToggleCoatOfArm(false)
       } catch (error) {
