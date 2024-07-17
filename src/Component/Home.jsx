@@ -127,7 +127,7 @@ const Home = () => {
             <Link
               key={item.flag}
               to={"/Home/" + item.flag}
-              className=" shadow font-bold shrink-0 bg-grey-500 rounded-lg mb-4">
+              className=" shadow font-bold shrink-0 bg-gray-800 rounded-lg mb-4">
               <div>
                 <img src={item.flags.png} alt="" className="rounded-lg w-full" />
               </div>
