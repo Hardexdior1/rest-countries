@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import MyContext from "./Context";
 import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 const Home = () => {
-  // const { localData2 } = useContext(MyContext);
 
   const [countries, setCountries] = useState([]);
   const [allCountries, setAllCountries] = useState([]);
@@ -41,8 +41,9 @@ const Home = () => {
 
         const data = await response.json();
         setAllCountries(data);
-        setLoading(false);
-        setCountries(data);
+        setLoading(false)
+        setCountries(data)
+        console.log(data.length);
       } catch (error) {
         console.error("Error fetching data:", error.response);
       }
@@ -67,12 +68,20 @@ const Home = () => {
         ? "ooops! no result for " + e.target.value
         : "" 
     );
-    //
-    // if(matchingItems.length === 0 && e.target.value!==""){
-    //   setNotFound( "ooops! no result for " + e.target.value)
-    // }
+   
     setCountries(matchingItems);
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 20;
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(countries.length / productsPerPage);
+
+  // Get the products to display on the current page
+  const currentProducts = countries.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
   return (
     <div className="py-5 px-8 grid gap-5">
       <div className="md:flex items-center justify-between gap-5">
@@ -122,7 +131,7 @@ const Home = () => {
         </center>
       )}
       <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 text-white">
-        {countries.map((item) => {
+        {currentProducts.map((item) => {
           return (
             <Link
               key={item.flag}
@@ -155,6 +164,12 @@ const Home = () => {
           );
         })}
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };
